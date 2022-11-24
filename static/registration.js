@@ -1,4 +1,5 @@
 Vue.createApp({
+    delimiters: ['[[', ']]'],
     components: {
         VForm: VeeValidate.Form,
         VField: VeeValidate.Field,
@@ -18,7 +19,7 @@ Vue.createApp({
                     if (!value) {
                         return true;
                     }
-                    if ( !regex.test(value)) {
+                    if (!regex.test(value)) {
 
                         return '⚠ Формат телефона нарушен';
                     }
@@ -29,7 +30,7 @@ Vue.createApp({
                     if (!value) {
                         return true;
                     }
-                    if ( !regex.test(value)) {
+                    if (!regex.test(value)) {
 
                         return '⚠ Формат кода нарушен';
                     }

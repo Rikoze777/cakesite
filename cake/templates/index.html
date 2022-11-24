@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,13 +6,14 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-	<link rel="stylesheet" href="Style.css">
+	<link rel="stylesheet" href="{% static 'Style.css' %}">
 	<!-- Для разработки: -->
 	<script src="https://unpkg.com/vue@3"></script>
 	<!-- Для продакшина: -->
 	<!-- <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script> -->
 	<script src="https://unpkg.com/vee-validate"></script>
 	<title>Тортики</title>
+	<script src="//code.jivosite.com/widget/0fhxHS0q04" async></script>
 </head>
 <body>
 <header class="navbar navbar-expand-xl navbar-light fixed-top bg-white py-4">
@@ -20,7 +22,7 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<a class="navbar-brand" href="#">
-			<img src="img/Logo.svg" alt="CakeBake">
+			<img src="{% static 'img/Logo.svg' %}" alt="CakeBake">
 		</a>
 		<div class="collapse navbar-collapse justify-content-end" id="navbar">
 			<ul class="navbar-nav">
@@ -42,12 +44,12 @@
 				</li>
 				<li class="nav-item d-flex align-items-center">
 					<a class="nav-link fw-lighter me-1 cake_blue position-relative" href="#">
-						<img src="img/shopping-cart.svg" alt="">
+						<img src="{% static 'img/shopping-cart.svg' %}" alt="">
 						<!--метка на иконке, убрать класс d-none чтоб появилась-->
 						<span class="position-absolute translate-middle badge rounded-pill cake__bg_pink fs_8 d-none">1</span>
 					</a>
 					<a class="nav-link fw-lighter me-1 cake_blue position-relative" href="#RegModal" data-bs-toggle="modal">
-						<img src="img/user.svg" alt="">
+						<img src="{% static 'img/user.svg' %}" alt="">
 						<!--метка на иконке, убрать класс d-none чтоб появилась-->
 						<span class="position-absolute translate-middle badge rounded-pill cake__bg_pink fs_8 d-none">1</span>
 					</a>
@@ -86,13 +88,13 @@
 								<path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
 								<path d="M7.002 11a1 1 0 1 1 2 0 1 1 0 0 1-2 0zM7.1 4.995a.905.905 0 1 1 1.8 0l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 4.995z"/>
 							</svg>
-							{{Step === 'Number' ? 'Введите номер' : 'Введите код'}}</error-message></small>
+							[[Step === 'Number' ? 'Введите номер' : 'Введите код']]</error-message></small>
 						<error-message name="phone_format" class="fs_12 cake_pink text-center position-absolute bottom-0"></error-message>
 						<error-message name="code_format" class="fs_12 cake_pink text-center position-absolute bottom-0"></error-message>
 					</v-form>
 
 					<div class="modal-footer d-flex flex-column justify-content-between align-items-center text-center border-0 mx-5">
-						<p class="fs_12 cake_grey">{{Step === `Number` ? `Нажимая на кнопку, вы соглашаетесь на обработку персональных данных в соответствии с политикой конфиденциальности` : Step === 'Code' ? `Осталось времени: 05:00` : ``}}</p>
+						<p class="fs_12 cake_grey">[[Step === `Number` ? `Нажимая на кнопку, вы соглашаетесь на обработку персональных данных в соответствии с политикой конфиденциальности` : Step === 'Code' ? `Осталось времени: 05:00` : ``]]</p>
 						<a href="#" v-if="Step === `Code`" @click.prevent="ToRegStep1" class="text-decoration-none cake_pink fs_12">изменить данные</a>
 					</div>
 				</div>
@@ -101,7 +103,7 @@
 
 		<article class="row position-relative">
 			<div class="col-12 col-xxl-6 d-flex justify-content-center">
-				<img src="img/Cake.png" alt="">
+				<img src="{% static 'img/Cake.png' %}" alt="">
 			</div>
 			<div class="col-12 col-xxl-6 d-flex flex-column justify-content-center align-items-center align-items-xxl-start">
 				<h1 class="font_Gogh fs_40 cake_blue">Создайте торт своей мечты</h1>
@@ -111,7 +113,7 @@
 			<div class="position-fixed bottom-0 m-5 w-auto end-0">
 				<div class="d-flex">
 					<div class="cake__bg_blue rounded-pill p-3 border">
-						<img src="img/intercom.svg" alt="">
+						<img src="{% static 'img/intercom.svg' %}" alt="">
 					</div>
 				</div>
 			</div>
@@ -123,21 +125,21 @@
 			<div class="col-12 col-sm-6 col-lg-4 d-flex flex-column align-items-center">
 				<div class="card border-0 cake__hover">
 					<a href="#" class="card-img-overlay"></a>
-					<img src="img/image1.png" alt="" class="">
+					<img src="{% static 'img/image1.png' %}" alt="" class="">
 					<span class="cake_blue mt-4 fw-lighter mb-4 text-center">На чаепитие</span>
 				</div>
 			</div>
 			<div class="col-12 col-sm-6 col-lg-4 d-flex flex-column align-items-center">
 				<div class="card border-0 cake__hover">
 					<a href="#" class="card-img-overlay"></a>
-					<img src="img/image2.png" alt="" class="">
+					<img src="{% static 'img/image2.png' %}" alt="" class="">
 					<span class="cake_blue mt-4 fw-lighter mb-4 text-center">На день рождения</span>
 				</div>
 			</div>
 			<div class="col-12 col-sm-6 col-lg-4 d-flex flex-column align-items-center">
 				<div class="card border-0 cake__hover">
 					<a href="#" class="card-img-overlay"></a>
-					<img src="img/image3.png" alt="" class="">
+					<img src="{% static 'img/image3.png' %}" alt="" class="">
 					<span class="cake_blue mt-4 fw-lighter mb-4 text-center">На свадьбу</span>
 				</div>
 			</div>
@@ -150,21 +152,21 @@
 			<h2 class="font_Gogh fs_40 cake_blue text-center mb-5">Оплата и доставка</h2>
 			<div class="col-12 col-sm-6 col-lg-4 d-flex flex-column align-items-center">
 				<div class="d-flex align-items-center" style="height: 120px">
-					<img src="img/clock.svg" alt="">
+					<img src="{% static 'img/clock.svg' %}" alt="">
 				</div>
 				<span class="cake_blue mt-4 fw-lighter">Изготовление 24 ч.</span>
 				<p class="cake_grey mt-3">Срочный заказ (менее 24 ч.) увеличивает стоимость заказа на 20%</p>
 			</div>
 			<div class="col-12 col-sm-6 col-lg-4 d-flex flex-column align-items-center">
 				<div class="d-flex align-items-center" style="height: 120px">
-					<img src="img/card.svg" alt="">
+					<img src="{% static 'img/card.svg' %}" alt="">
 				</div>
 				<span class="cake_blue mt-4 fw-lighter">100% предоплата</span>
 				<p class="cake_grey mt-3">Оплата осуществляется банковской картой или в нашем ресторане наличными</p>
 			</div>
 			<div class="col-12 col-sm-6 col-lg-4 d-flex flex-column align-items-center">
 				<div class="d-flex align-items-center" style="height: 120px">
-					<img src="img/deliv.svg" alt="">
+					<img src="{% static 'img/deliv.svg' %}" alt="">
 				</div>
 				<span class="cake_blue mt-4 fw-lighter">Доставка по Москве</span>
 				<p class="cake_grey mt-3">Готовый заказ доставят по адресу в заявке с 10:00 до 23:00 в пределах МКАД</p>
@@ -184,7 +186,7 @@
 					<error-message name="form" class="from__alert"></error-message>
 					<error-message name="topping" class="from__alert"></error-message>
 				</span>
-						<span class="z-index-1 fs_40 cake_pink text-end mt-5" id="cost">{{ Cost }}₽</span>
+						<span class="z-index-1 fs_40 cake_pink text-end mt-5" id="cost">[[ Cost ]]₽</span>
 					</div>
 					<div class="d-flex align-items-center flex-wrap mb-3">
 						<span class="me-3 fs_40 cake_blue">Количество уровней</span>
@@ -346,15 +348,15 @@
 							<div class="col-12 col-lg-4 d-flex justify-content-center justify-content-lg-end">
 								<div class="cake__card p-4 position-relative cake_grey">
 									<span class="cake__badge rounded-pill">?</span>
-									<span>Количество уровней: {{ DATA.Levels[Levels] }}</span>
-									<span>Форма уровней: {{ DATA.Forms[Form] }}</span>
-									<p>Топинг: {{ DATA.Toppings[Topping] }}</p>
+									<span>Количество уровней: [[ DATA.Levels[Levels] ]]</span>
+									<span>Форма уровней: [[ DATA.Forms[Form] ]]</span>
+									<p>Топинг: [[ DATA.Toppings[Topping] ]]</p>
 									<span>Дополнительно:</span>
 									<ul>
-										<li>Ягоды: {{ DATA.Berries[Berries] }}</li>
-										<li>Декор: {{ DATA.Decors[Decor] }}</li>
+										<li>Ягоды: [[ DATA.Berries[Berries] ]]</li>
+										<li>Декор: [[ DATA.Decors[Decor] ]]</li>
 									</ul>
-									<span>{{ Words === '' ? 'Без надписи' : Words }}</span>
+									<span>[[ Words === '' ? 'Без надписи' : Words ]]</span>
 								</div>
 							</div>
 						</div>
@@ -386,7 +388,7 @@
 							</div>
 							<div class="col-12 col-md-6 d-flex flex-column align-items-center align-items-md-end mt-3 mt-md-0">
 								<div class="d-flex">
-									<span class="cake_pink fs_40 fw-bold me-2">Итого: {{ Cost }}₽</span>
+									<span class="cake_pink fs_40 fw-bold me-2">Итого: [[ Cost ]]₽</span>
 								</div>
 								<button type="submit" class="btn btn_hover text-white rounded-pill mt-3 px-5 shadow-none cake__button cake__bg_pink">К оплате</button>
 							</div>
@@ -403,7 +405,7 @@
 		<div class="row">
 			<div class="col-4 col-xl-2 d-flex flex-column">
 				<div>
-					<img src="img/Logo.svg" alt="CakeBake" class="mb-2">
+					<img src="{% static 'img/Logo.svg' %}" alt="CakeBake" class="mb-2">
 				</div>
 				<small class="text-white fs_12">©2022 CakeBake</small>
 				<small class="text-white fs_12">Все права защищены.</small>
@@ -422,7 +424,7 @@
 				<a href="#Contacts" class="text-decoration-none text-white">Контакты</a>
 			</div>
 			<div class="col-12 col-xl-6 d-flex flex-column align-items-start align-items-xl-end mt-3 mt-xl-0">
-				<a href="https://vk.com/devmanorg"><img src="img/vk.svg" alt="VK" class="mb-3 mb-xl-5"></a>
+				<a href="https://vk.com/devmanorg"><img src="{% static 'img/vk.svg' %}" alt="VK" class="mb-3 mb-xl-5"></a>
 				<small class="text-white fs_12">8 (495) 000-00-00</small>
 				<small class="text-white fs_12">info@cakebake.ru</small>
 				<small class="text-white fs_12">Пн - Вс 10:00—20:00</small>
@@ -432,7 +434,7 @@
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-<script src="index.js"></script>
-<script src="registration.js"></script>
+<script src="{% static 'index.js' %}"></script>
+<script src="{% static 'registration.js' %}"></script>
 </body>
 </html>
