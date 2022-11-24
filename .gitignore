@@ -88,3 +88,6 @@ ipython_config.py
 
 # Pyenv
 .python-version
+
+# Mac OS
+.DS_Store
