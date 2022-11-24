@@ -1,5 +1,6 @@
 # Recommended defaults for .gitignore from GitHub: https://github.com/github/gitignore/blob/main/Python.gitignore
 
+# Environment variables
 .env
 
 # Byte-compiled / optimized / DLL files
