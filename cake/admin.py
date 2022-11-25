@@ -21,7 +21,7 @@ class UserAdmin(admin.ModelAdmin):
 @admin.register(Order)
 class UserAdmin(admin.ModelAdmin):
     list_display = ("address", "total")
-
+    raw_id_fields = ("cake", "user")
 
 @admin.register(Complaint)
 class UserComplaint(admin.ModelAdmin):
