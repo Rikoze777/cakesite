@@ -88,7 +88,10 @@ class Order(models.Model):
         related_name='orders',
         on_delete=models.CASCADE)
     delivery_datetime = models.DateTimeField('Дата и время доставки')
-    total = models.IntegerField('Стоимость заказа')
+    total = models.IntegerField('Стоимость заказа', null=True)
+    delivery_comment = models.TextField(
+        'Комментарий для курьера',
+        default='Отсутствует')
 
     def __str__(self) -> str:
         return f"@{self.address}, {self.total}"
