@@ -1,8 +1,10 @@
 from datetime import datetime
+import phonenumbers
 
 from django.shortcuts import render
 from django.utils import dateparse
 from .models import Cake, User, Order
+from .data_operations import validate_phonenumber, calculate_price
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
 from django.contrib.auth import login
@@ -16,6 +18,8 @@ def index(request):
         toppings = received_data.get("TOPPING")
         berries = received_data.get("BERRIES")
         decors = received_data.get("DECOR")
+        berries = berries if berries else 0
+        decors = decors if decors else 0
         words = received_data.get("WORDS")
         comments = received_data.get("COMMENTS")
         created_cake, new_cake = Cake.objects.get_or_create(
@@ -31,6 +35,12 @@ def index(request):
         name = received_data.get("NAME")
         email = received_data.get("EMAIL")
         phonenumber = received_data.get("PHONE")
+        if validate_phonenumber(phonenumber):
+            phonenumber = phonenumbers.parse(phonenumber, 'RU')
+            phonenumber = phonenumbers.format_number(
+                phonenumber,
+                phonenumbers.PhoneNumberFormat.E164
+            )
         created_user, new_user = User.objects.get_or_create(
             name=name,
             phonenumber=phonenumber,
@@ -41,6 +51,7 @@ def index(request):
         delivery_time = dateparse.parse_time(received_data.get("TIME"))
         delivery_datetime = datetime.combine(delivery_date, delivery_time)
         address = received_data.get("ADDRESS")
+        total = calculate_price(levels, form, toppings, berries, decors, words)
         delivery_comment = received_data.get('DELIVCOMMENTS')
         delivery_comment = delivery_comment if delivery_comment else 'Отсутствует'
         order = Order.objects.create(
@@ -49,33 +60,18 @@ def index(request):
             delivery_datetime=delivery_datetime,
             address=address,
             cake=cake,
+            total=total,
             delivery_comment=delivery_comment)
 
     return render(request, "index.html")
 
 
-def calculate_price(levels, form, toppings=0, berries=0, decors=0, words=''):
-    level_price = (400, 750, 1100)
-    form_price = (600, 400, 1000)
-    toppings_price = (0, 200, 180, 200, 300, 350, 200)
-    berries_price = (0, 400, 300, 450, 500)
-    decors_price = (0, 300, 400, 350, 300, 200, 280)
-
-    total = (level_price[levels - 1] + form_price[form - 1] +
-             toppings_price[toppings - 1] +
-             berries_price[berries] + decors_price[decors])
-    if words:
-        total += 500
-    return total
-
-
 @login_required
 def lk(request):
-    payload = dict(request.GET.items())
+    payload = request.GET
     if payload  in payload:
-
-            order.save()
-    
+        #order.save()
+        pass
     phone = request.phonenumber
     user = User.objects.get(phonenumber=phone)
     
@@ -95,27 +91,28 @@ def lk(request):
 
 @require_http_methods(['POST'])
 def login_page(request):
-    payload = dict(request.POST.items())
-    phone = request.phonenumber
-    name = request.name
+    payload = request.POST
+    phone = payload.get('phonenumber')
+    
+    # name = request.name
     user = User.objects.get(phonenumber=phone)
-    if not user:
-        user = User.objects.create_user(
-            username=phone,
-            phonenumber=phone
-        )
-    login(request, user)
+    # if not user:
+    #     user = User.objects.create_user(
+    #         username=phone,
+    #         phonenumber=phone
+    #     )
+    #login(request, user)
 
-    user, created = User.objects.get_or_create(
-        name=name,
-        phonenumber=phone,
-        mail = request.EMAIL,
-        defaults={
-            'name': '',
-            'email': '',
-            'address': '',
-        },
-    )
+    # user, created = User.objects.get_or_create(
+    #     name=name,
+    #     phonenumber=phone,
+    #     mail = request.EMAIL,
+    #     defaults={
+    #         'name': '',
+    #         'email': '',
+    #         'address': '',
+    #     },
+    # )
     context = {
 
         'client_details': {

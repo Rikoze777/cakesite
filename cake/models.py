@@ -25,21 +25,21 @@ TOPPINGS = [
 ]
 
 BERRIES = [
-    (1, 'нет'),
-    (2, 'Ежевика'),
-    (3, 'Малина'),
-    (4, 'Голубика'),
-    (5, 'Клубника'),
+    (0, 'нет'),
+    (1, 'Ежевика'),
+    (2, 'Малина'),
+    (3, 'Голубика'),
+    (4, 'Клубника'),
 ]
 
 DECORS = [
-    (1, 'нет'),
-    (2, 'Фисташки'),
-    (3, 'Безе'),
-    (4, 'Фундук'),
-    (5, 'Пекан'),
-    (6, 'Маршмеллоу'),
-    (7, 'Марципан'),
+    (0, 'нет'),
+    (1, 'Фисташки'),
+    (2, 'Безе'),
+    (3, 'Фундук'),
+    (4, 'Пекан'),
+    (5, 'Маршмеллоу'),
+    (6, 'Марципан'),
 ]
 
 
@@ -65,10 +65,10 @@ class Cake(models.Model):
                                    choices=TOPPINGS)
     berries = models.IntegerField('Ягоды',
                                   choices=BERRIES,
-                                  default=('1', 'нет'))
+                                  default=('0', 'нет'))
     decors = models.IntegerField('Декор',
                                  choices=DECORS,
-                                 default=('1', 'нет'))
+                                 default=('0', 'нет'))
     words = models.CharField('Надпись', max_length=50, blank=True)
     comments = models.TextField('Комментарий к заказу', blank=True)
 
