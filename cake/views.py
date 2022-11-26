@@ -4,7 +4,7 @@ import phonenumbers
 from django.shortcuts import render
 from django.utils import dateparse
 from .models import Cake, User, Order
-from .data_operations import validate_phonenumber
+from .data_operations import validate_phonenumber, calculate_price
 
 def index(request):
     if request.GET:
@@ -44,6 +44,7 @@ def index(request):
         delivery_time = dateparse.parse_time(received_data.get("TIME"))
         delivery_datetime = datetime.combine(delivery_date, delivery_time)
         address = received_data.get("ADDRESS")
+        total = calculate_price(levels, form, toppings, berries, decors, words)
         delivery_comment = received_data.get('DELIVCOMMENTS')
         delivery_comment = delivery_comment if delivery_comment else 'Отсутствует'
         order = Order.objects.create(
@@ -52,6 +53,7 @@ def index(request):
             delivery_datetime=delivery_datetime,
             address=address,
             cake=cake,
+            total=total,
             delivery_comment=delivery_comment)
         
     return render(request, "index.html")
