@@ -5,6 +5,10 @@ from django.shortcuts import render
 from django.utils import dateparse
 from .models import Cake, User, Order
 from .data_operations import validate_phonenumber, calculate_price
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth import login
+
 
 def index(request):
     if request.GET:
@@ -55,7 +59,7 @@ def index(request):
             cake=cake,
             total=total,
             delivery_comment=delivery_comment)
-        
+
     return render(request, "index.html")
 
 

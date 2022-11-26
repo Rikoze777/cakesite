@@ -133,8 +133,8 @@ class Promocode(models.Model):
     value = models.CharField('Текст промокода', max_length=50)
 
     class Meta:
-        verbose_name = 'complaint'
-        verbose_name_plural = 'complaints'
+        verbose_name = 'promocode'
+        verbose_name_plural = 'promocodes'
 
     def __str__(self) -> str:
         return f"{self.value}, {self.discount}"
