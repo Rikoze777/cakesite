@@ -2,74 +2,83 @@ from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
 
 
+FORM = [
+    (1, 'Круг'),
+    (2, 'Квадрат'),
+    (3, 'Прямоугольник'),
+]
+
+LEVELS = [
+    (1, '1'),
+    (2, '2'),
+    (3, '3'),
+]
+
+TOPPINGS = [
+    (1, 'Без'),
+    (2, 'Белый соус'),
+    (3, 'Карамельный'),
+    (4, 'Кленовый'),
+    (5, 'Черничный'),
+    (6, 'Молочный шоколад'),
+    (7, 'Клубничный'),
+]
+
+BERRIES = [
+    (1, 'нет'),
+    (2, 'Ежевика'),
+    (3, 'Малина'),
+    (4, 'Голубика'),
+    (5, 'Клубника'),
+]
+
+DECORS = [
+    (1, 'нет'),
+    (2, 'Фисташки'),
+    (3, 'Безе'),
+    (4, 'Фундук'),
+    (5, 'Пекан'),
+    (6, 'Маршмеллоу'),
+    (7, 'Марципан'),
+]
+
+
 class User(models.Model):
     name = models.CharField('Имя пользователя', max_length=50)
     email = models.EmailField('Email', max_length=70, blank=True, unique=True)
     phonenumber = PhoneNumberField('Номер телефона', blank=True)
 
+    class Meta:
+        verbose_name = 'client'
+        verbose_name_plural = 'clients'
+
     def __str__(self) -> str:
-        return f"@{self.name}, {self.phonenumber}"
+        return f"{self.name}, {self.phonenumber}"
 
 
 class Cake(models.Model):
-    class Form(models.TextChoices):
-        ROUND = "ROUND"
-        SQUARE = "SQUARE"
-        RECTANGLE = "RECTANGLE"
-        NO = "NO"
-
-    class Levels(models.IntegerChoices):
-        ZERO = 0
-        ONE = 1
-        TWO = 2
-        THREE = 3
-
-    class Toppings(models.TextChoices):
-        WITHOUT = "WITHOUT"
-        WHITE = "WHITE"
-        CARAMEL = "CARAMEL"
-        MAPLE = "MAPLE"
-        BLUEBERRY = "BLUEBERRY"
-        MILKCHOCKOLATE = "MILKCHOCKOLATE"
-        STAWBERRY = "STAWBERRY"
-        NO = "NO"
-
-    class Berries (models.TextChoices):
-        STAWBERRY = "STAWBERRY"
-        BLUEBERRY = "BLUEBERRY"
-        RAPSBERRY = "RAPSBERRY"
-        BLACKBERRY = "BLACKBERRY"
-        NO = "NO"
-
-    class Decors (models.TextChoices):
-        PISTACHIO = "PISTACHIO"
-        MERINGUE = "MERINGUE"
-        HAZELNUT = "HAZELNUT"
-        PECAN = "PECAN"
-        MARSHMALLOW = "MARSHMALLOW"
-        MARZIPAN = "MARZIPAN"
-        NO = "NO"
-
     levels = models.IntegerField('Количество уровней торта',
-                                 choices=Levels.choices,
-                                 default=Levels.ZERO)
-    form = models.CharField('Форма торта', max_length=50,
-                            choices=Form.choices,
-                            default=Form.NO)
-    toppings = models.CharField('Топпинг', max_length=50,
-                                choices=Toppings.choices,
-                                default=Toppings.NO)
-    berries = models.CharField('Ягоды', max_length=50,
-                               choices=Berries.choices,
-                               default=Berries.NO)
-    decors = models.CharField('Декор', max_length=50,
-                              choices=Decors.choices,
-                              default=Decors.NO)
+                                 max_length=1,
+                                 choices=LEVELS,)
+    form = models.IntegerField('Форма торта', max_length=2,
+                               choices=FORM,)
+    toppings = models.IntegerField('Топпинг', max_length=2,
+                                   choices=TOPPINGS)
+    berries = models.IntegerField('Ягоды', max_length=2,
+                                  choices=BERRIES,
+                                  default=('1', 'нет'))
+    decors = models.IntegerField('Декор', max_length=2,
+                                 choices=DECORS,
+                                 default=('1', 'нет'))
     words = models.CharField('Надпись', max_length=50, blank=True)
     comments = models.TextField('Комментарий к заказу', blank=True)
 
+    class Meta:
+        verbose_name = 'cake'
+        verbose_name_plural = 'cakes'
+
     def __str__(self) -> str:
-        return f"@{self.words}, {self.comments}"
+        return f"{self.words}, {self.comments}"
 
 
 class Order(models.Model):
@@ -93,8 +102,12 @@ class Order(models.Model):
         'Комментарий для курьера',
         default='Отсутствует')
 
+    class Meta:
+        verbose_name = 'order'
+        verbose_name_plural = 'orders'
+
     def __str__(self) -> str:
-        return f"@{self.address}, {self.total}"
+        return f"{self.address}, {self.total}"
 
 
 class Complaint(models.Model):
@@ -106,8 +119,12 @@ class Complaint(models.Model):
         on_delete=models.CASCADE,
         null=True)
 
+    class Meta:
+        verbose_name = 'complaint'
+        verbose_name_plural = 'complaints'
+
     def __str__(self) -> str:
-        return f"@{self.order}, {self.message}"
+        return f"{self.order}, {self.message}"
 
 
 class Promocode(models.Model):
@@ -116,5 +133,9 @@ class Promocode(models.Model):
     discount = models.FloatField('Процент скидки')
     value = models.CharField('Текст промокода', max_length=50)
 
+    class Meta:
+        verbose_name = 'complaint'
+        verbose_name_plural = 'complaints'
+
     def __str__(self) -> str:
-        return f"@{self.value}, {self.discount}"
+        return f"{self.value}, {self.discount}"
