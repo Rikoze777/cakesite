@@ -18,6 +18,8 @@ def index(request):
         toppings = received_data.get("TOPPING")
         berries = received_data.get("BERRIES")
         decors = received_data.get("DECOR")
+        berries = berries if berries else 0
+        decors = decors if decors else 0
         words = received_data.get("WORDS")
         comments = received_data.get("COMMENTS")
         created_cake, new_cake = Cake.objects.get_or_create(
@@ -34,8 +36,9 @@ def index(request):
         email = received_data.get("EMAIL")
         phonenumber = received_data.get("PHONE")
         if validate_phonenumber(phonenumber):
+            phonenumber = phonenumbers.parse(phonenumber, 'RU')
             phonenumber = phonenumbers.format_number(
-                phonenumbers.parse(phonenumber, 'RU'),
+                phonenumber,
                 phonenumbers.PhoneNumberFormat.E164
             )
         created_user, new_user = User.objects.get_or_create(
@@ -65,11 +68,10 @@ def index(request):
 
 @login_required
 def lk(request):
-    payload = dict(request.GET.items())
+    payload = request.GET
     if payload  in payload:
-
-            order.save()
-    
+        #order.save()
+        pass
     phone = request.phonenumber
     user = User.objects.get(phonenumber=phone)
     
@@ -89,27 +91,28 @@ def lk(request):
 
 @require_http_methods(['POST'])
 def login_page(request):
-    payload = dict(request.POST.items())
-    phone = request.phonenumber
-    name = request.name
+    payload = request.POST
+    phone = payload.get('phonenumber')
+    
+    # name = request.name
     user = User.objects.get(phonenumber=phone)
-    if not user:
-        user = User.objects.create_user(
-            username=phone,
-            phonenumber=phone
-        )
-    login(request, user)
+    # if not user:
+    #     user = User.objects.create_user(
+    #         username=phone,
+    #         phonenumber=phone
+    #     )
+    #login(request, user)
 
-    user, created = User.objects.get_or_create(
-        name=name,
-        phonenumber=phone,
-        mail = request.EMAIL,
-        defaults={
-            'name': '',
-            'email': '',
-            'address': '',
-        },
-    )
+    # user, created = User.objects.get_or_create(
+    #     name=name,
+    #     phonenumber=phone,
+    #     mail = request.EMAIL,
+    #     defaults={
+    #         'name': '',
+    #         'email': '',
+    #         'address': '',
+    #     },
+    # )
     context = {
 
         'client_details': {
