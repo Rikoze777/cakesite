@@ -63,3 +63,60 @@ def index(request):
     return render(request, "index.html")
 
 
+@login_required
+def lk(request):
+    payload = dict(request.GET.items())
+    if payload  in payload:
+
+            order.save()
+    
+    phone = request.phonenumber
+    user = User.objects.get(phonenumber=phone)
+    
+    if request.method == 'POST':
+        payload = dict(request.POST.items())
+
+    context = {
+        'user_details': {
+            'phone': str(user.phonenumber),
+            'name': user.name,
+            'email': user.email,
+        },
+        'orders': user.orders.all(),
+    }
+    return render(request, 'lk.html', context)
+
+
+@require_http_methods(['POST'])
+def login_page(request):
+    payload = dict(request.POST.items())
+    phone = request.phonenumber
+    name = request.name
+    user = User.objects.get(phonenumber=phone)
+    if not user:
+        user = User.objects.create_user(
+            username=phone,
+            phonenumber=phone
+        )
+    login(request, user)
+
+    user, created = User.objects.get_or_create(
+        name=name,
+        phonenumber=phone,
+        mail = request.EMAIL,
+        defaults={
+            'name': '',
+            'email': '',
+            'address': '',
+        },
+    )
+    context = {
+
+        'client_details': {
+            'phone': str(phone),
+            'name': user.name,
+            'email': user.email,
+        },
+        'orders': user.orders.all(),
+    }
+    return render(request, 'lk.html', context)
