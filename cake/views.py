@@ -3,6 +3,9 @@ from datetime import datetime
 from django.shortcuts import render
 from django.utils import dateparse
 from .models import Cake, User, Order
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_http_methods
+from django.contrib.auth import login
 
 
 def index(request):
@@ -47,5 +50,79 @@ def index(request):
             address=address,
             cake=cake,
             delivery_comment=delivery_comment)
-        
+
     return render(request, "index.html")
+
+
+def calculate_price(levels, form, toppings=0, berries=0, decors=0, words=''):
+    level_price = (400, 750, 1100)
+    form_price = (600, 400, 1000)
+    toppings_price = (0, 200, 180, 200, 300, 350, 200)
+    berries_price = (0, 400, 300, 450, 500)
+    decors_price = (0, 300, 400, 350, 300, 200, 280)
+
+    total = (level_price[levels - 1] + form_price[form - 1] +
+             toppings_price[toppings - 1] +
+             berries_price[berries] + decors_price[decors])
+    if words:
+        total += 500
+    return total
+
+
+@login_required
+def lk(request):
+    payload = dict(request.GET.items())
+    if payload  in payload:
+
+            order.save()
+    
+    phone = request.phonenumber
+    user = User.objects.get(phonenumber=phone)
+    
+    if request.method == 'POST':
+        payload = dict(request.POST.items())
+
+    context = {
+        'user_details': {
+            'phone': str(user.phonenumber),
+            'name': user.name,
+            'email': user.email,
+        },
+        'orders': user.orders.all(),
+    }
+    return render(request, 'lk.html', context)
+
+
+@require_http_methods(['POST'])
+def login_page(request):
+    payload = dict(request.POST.items())
+    phone = request.phonenumber
+    name = request.name
+    user = User.objects.get(phonenumber=phone)
+    if not user:
+        user = User.objects.create_user(
+            username=phone,
+            phonenumber=phone
+        )
+    login(request, user)
+
+    user, created = User.objects.get_or_create(
+        name=name,
+        phonenumber=phone,
+        mail = request.EMAIL,
+        defaults={
+            'name': '',
+            'email': '',
+            'address': '',
+        },
+    )
+    context = {
+
+        'client_details': {
+            'phone': str(phone),
+            'name': user.name,
+            'email': user.email,
+        },
+        'orders': user.orders.all(),
+    }
+    return render(request, 'lk.html', context)
