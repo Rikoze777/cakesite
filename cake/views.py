@@ -1,9 +1,10 @@
 from datetime import datetime
+import phonenumbers
 
 from django.shortcuts import render
 from django.utils import dateparse
 from .models import Cake, User, Order
-
+from .data_operations import validate_phonenumber
 
 def index(request):
     if request.GET:
@@ -28,6 +29,11 @@ def index(request):
         name = received_data.get("NAME")
         email = received_data.get("EMAIL")
         phonenumber = received_data.get("PHONE")
+        if validate_phonenumber(phonenumber):
+            phonenumber = phonenumbers.format_number(
+                phonenumbers.parse(phonenumber, 'RU'),
+                phonenumbers.PhoneNumberFormat.E164
+            )
         created_user, new_user = User.objects.get_or_create(
             name=name,
             phonenumber=phonenumber,
@@ -49,3 +55,5 @@ def index(request):
             delivery_comment=delivery_comment)
         
     return render(request, "index.html")
+
+
