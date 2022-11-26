@@ -58,16 +58,15 @@ class User(models.Model):
 
 class Cake(models.Model):
     levels = models.IntegerField('Количество уровней торта',
-                                 max_length=1,
                                  choices=LEVELS,)
-    form = models.IntegerField('Форма торта', max_length=2,
+    form = models.IntegerField('Форма торта',
                                choices=FORM,)
-    toppings = models.IntegerField('Топпинг', max_length=2,
+    toppings = models.IntegerField('Топпинг',
                                    choices=TOPPINGS)
-    berries = models.IntegerField('Ягоды', max_length=2,
+    berries = models.IntegerField('Ягоды',
                                   choices=BERRIES,
                                   default=('1', 'нет'))
-    decors = models.IntegerField('Декор', max_length=2,
+    decors = models.IntegerField('Декор',
                                  choices=DECORS,
                                  default=('1', 'нет'))
     words = models.CharField('Надпись', max_length=50, blank=True)
