@@ -65,10 +65,10 @@ class Cake(models.Model):
                                    choices=TOPPINGS)
     berries = models.IntegerField('Ягоды',
                                   choices=BERRIES,
-                                  default=('1', 'нет'))
+                                  default=('0', 'нет'))
     decors = models.IntegerField('Декор',
                                  choices=DECORS,
-                                 default=('1', 'нет'))
+                                 default=('0', 'нет'))
     words = models.CharField('Надпись', max_length=50, blank=True)
     comments = models.TextField('Комментарий к заказу', blank=True)
 
