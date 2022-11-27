@@ -5,9 +5,8 @@ from django.shortcuts import render
 from django.utils import dateparse
 from .models import Cake, User, Order
 from .data_operations import validate_phonenumber, calculate_price
-from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_http_methods
-from django.contrib.auth import login
+from django.core.exceptions import ObjectDoesNotExist
 
 
 def index(request):
@@ -21,6 +20,7 @@ def index(request):
         berries = berries if berries else 0
         decors = decors if decors else 0
         words = received_data.get("WORDS")
+        words = words if words else 'отсутствует'
         comments = received_data.get("COMMENTS")
         created_cake, new_cake = Cake.objects.get_or_create(
             levels=levels,
@@ -31,7 +31,6 @@ def index(request):
             words=words,
             comments=comments)
         cake = created_cake if created_cake else new_cake
-
         name = received_data.get("NAME")
         email = received_data.get("EMAIL")
         phonenumber = received_data.get("PHONE")
@@ -54,7 +53,7 @@ def index(request):
         total = calculate_price(levels, form, toppings, berries, decors, words)
         delivery_comment = received_data.get('DELIVCOMMENTS')
         delivery_comment = delivery_comment if delivery_comment else 'Отсутствует'
-        order = Order.objects.create(
+        Order.objects.create(
             user=user,
             order_datetime=order_datetime,
             delivery_datetime=delivery_datetime,
@@ -62,64 +61,31 @@ def index(request):
             cake=cake,
             total=total,
             delivery_comment=delivery_comment)
-
     return render(request, "index.html")
-
-
-@login_required
-def lk(request):
-    payload = request.GET
-    if payload  in payload:
-        #order.save()
-        pass
-    phone = request.phonenumber
-    user = User.objects.get(phonenumber=phone)
-    
-    if request.method == 'POST':
-        payload = dict(request.POST.items())
-
-    context = {
-        'user_details': {
-            'phone': str(user.phonenumber),
-            'name': user.name,
-            'email': user.email,
-        },
-        'orders': user.orders.all(),
-    }
-    return render(request, 'lk.html', context)
 
 
 @require_http_methods(['POST'])
 def login_page(request):
-    payload = request.POST
-    phone = payload.get('phonenumber')
-    
-    # name = request.name
-    user = User.objects.get(phonenumber=phone)
-    # if not user:
-    #     user = User.objects.create_user(
-    #         username=phone,
-    #         phonenumber=phone
-    #     )
-    #login(request, user)
+    try:
+        payload = request.POST
+        phonenumber = payload.get('phonenumber')
+        if validate_phonenumber(phonenumber):
+            phonenumber = phonenumbers.parse(phonenumber, 'RU')
+            phonenumber = phonenumbers.format_number(
+                phonenumber,
+                phonenumbers.PhoneNumberFormat.E164
+            )
+        user = User.objects.get(phonenumber=phonenumber)
+    except ObjectDoesNotExist:
+        return render(request, 'without_lk.html')
 
-    # user, created = User.objects.get_or_create(
-    #     name=name,
-    #     phonenumber=phone,
-    #     mail = request.EMAIL,
-    #     defaults={
-    #         'name': '',
-    #         'email': '',
-    #         'address': '',
-    #     },
-    # )
+    orders = user.orders.all()
     context = {
-
         'client_details': {
-            'phone': str(phone),
+            'phone': str(phonenumber),
             'name': user.name,
             'email': user.email,
         },
-        'orders': user.orders.all(),
+        'orders': orders,
     }
-    return render(request, 'lk.html', context)
+    return render(request, 'lk-order.html', context)
