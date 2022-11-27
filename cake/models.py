@@ -1,20 +1,21 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from model_utils import Choices
 
 
-FORM = [
+FORM = Choices(
     (1, 'Круг'),
     (2, 'Квадрат'),
     (3, 'Прямоугольник'),
-]
+)
 
-LEVELS = [
+LEVELS = Choices(
     (1, '1'),
     (2, '2'),
     (3, '3'),
-]
+)
 
-TOPPINGS = [
+TOPPINGS = Choices(
     (1, 'Без'),
     (2, 'Белый соус'),
     (3, 'Карамельный'),
@@ -22,17 +23,17 @@ TOPPINGS = [
     (5, 'Черничный'),
     (6, 'Молочный шоколад'),
     (7, 'Клубничный'),
-]
+)
 
-BERRIES = [
+BERRIES = Choices(
     (0, 'нет'),
     (1, 'Ежевика'),
     (2, 'Малина'),
     (3, 'Голубика'),
     (4, 'Клубника'),
-]
+)
 
-DECORS = [
+DECORS = Choices(
     (0, 'нет'),
     (1, 'Фисташки'),
     (2, 'Безе'),
@@ -40,7 +41,7 @@ DECORS = [
     (4, 'Пекан'),
     (5, 'Маршмеллоу'),
     (6, 'Марципан'),
-]
+)
 
 
 class User(models.Model):
