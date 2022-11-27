@@ -26,6 +26,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
     path('login', views.login_page, name='login'),
-    path('lk/', views.lk, name='lk'),
     path('cake/', include('cake.urls')),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
