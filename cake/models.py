@@ -1,20 +1,21 @@
 from django.db import models
 from phonenumber_field.modelfields import PhoneNumberField
+from model_utils import Choices
 
 
-FORM = [
+FORM = Choices(
     (1, 'Круг'),
     (2, 'Квадрат'),
     (3, 'Прямоугольник'),
-]
+)
 
-LEVELS = [
+LEVELS = Choices(
     (1, '1'),
     (2, '2'),
     (3, '3'),
-]
+)
 
-TOPPINGS = [
+TOPPINGS = Choices(
     (1, 'Без'),
     (2, 'Белый соус'),
     (3, 'Карамельный'),
@@ -22,25 +23,25 @@ TOPPINGS = [
     (5, 'Черничный'),
     (6, 'Молочный шоколад'),
     (7, 'Клубничный'),
-]
+)
 
-BERRIES = [
-    (1, 'нет'),
-    (2, 'Ежевика'),
-    (3, 'Малина'),
-    (4, 'Голубика'),
-    (5, 'Клубника'),
-]
+BERRIES = Choices(
+    (0, 'нет'),
+    (1, 'Ежевика'),
+    (2, 'Малина'),
+    (3, 'Голубика'),
+    (4, 'Клубника'),
+)
 
-DECORS = [
-    (1, 'нет'),
-    (2, 'Фисташки'),
-    (3, 'Безе'),
-    (4, 'Фундук'),
-    (5, 'Пекан'),
-    (6, 'Маршмеллоу'),
-    (7, 'Марципан'),
-]
+DECORS = Choices(
+    (0, 'нет'),
+    (1, 'Фисташки'),
+    (2, 'Безе'),
+    (3, 'Фундук'),
+    (4, 'Пекан'),
+    (5, 'Маршмеллоу'),
+    (6, 'Марципан'),
+)
 
 
 class User(models.Model):
@@ -65,10 +66,10 @@ class Cake(models.Model):
                                    choices=TOPPINGS)
     berries = models.IntegerField('Ягоды',
                                   choices=BERRIES,
-                                  default=('1', 'нет'))
+                                  default=('0', 'нет'))
     decors = models.IntegerField('Декор',
                                  choices=DECORS,
-                                 default=('1', 'нет'))
+                                 default=('0', 'нет'))
     words = models.CharField('Надпись', max_length=50, blank=True)
     comments = models.TextField('Комментарий к заказу', blank=True)
 
@@ -133,8 +134,8 @@ class Promocode(models.Model):
     value = models.CharField('Текст промокода', max_length=50)
 
     class Meta:
-        verbose_name = 'complaint'
-        verbose_name_plural = 'complaints'
+        verbose_name = 'promocode'
+        verbose_name_plural = 'promocodes'
 
     def __str__(self) -> str:
         return f"{self.value}, {self.discount}"

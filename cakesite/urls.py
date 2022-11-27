@@ -19,9 +19,12 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 from cake.views import index
+from cake import views
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', index),
+    path('login', views.login_page, name='login'),
     path('cake/', include('cake.urls')),
 ]  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

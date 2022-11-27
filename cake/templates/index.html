@@ -54,7 +54,6 @@
 						<span class="position-absolute translate-middle badge rounded-pill cake__bg_pink fs_8 d-none">1</span>
 					</a>
 					<a class="nav-link fw-lighter cake_grey fs_12 d-none" href="#">
-						Ирина
 					</a>
 				</li>
 			</ul>
@@ -73,8 +72,9 @@
 					<div class="modal-header border-0 py-0">
 						<label for="reg" class="modal-title font_Gogh fs_40 cake_blue" id="RegModalLabel">Вход / Регистрация</label>
 					</div>
-					<form class="d-none">
-						<input v-model="RegInput" type="text" name="REG">
+					<form class="d-none" action="{% url 'login' %}" method="post">
+						{% csrf_token %}
+					    <input v-model="RegInput" type="text" name="phonenumber">
 						<button type="submit" ref="HiddenFormSubmitReg">reg</button>
 					</form>
 					<v-form :validation-schema="RegSchema" class="modal-body position-relative d-flex flex-column align-items-center px-5 pb-4" @submit="RegSubmit">
