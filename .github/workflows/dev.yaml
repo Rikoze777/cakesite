@@ -1,6 +1,5 @@
 
 jobs:
-jobs:
   web-deploy:
   web-deploy:
     name: 🎉 Deploy
