@@ -1,12 +1,18 @@
-on: 
-  push:
-    branches:
-      - dev
-name: 🚀 Deploy website on push
-jobs:
-  web-deploy:
-    name: 🎉 Deploy
+name: website deployment
+on: [push]
+jobs:  
+  deploy:    
     runs-on: ubuntu-latest
     steps:
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v2
+      - uses: actions/checkout@dev
+      - name: deploy website to example.com
+        uses: appleboy/scp-action@dev
+        env:
+          HOST: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.KEY }}
+        with:
+          source: "cakesite"
+          target: "cake/templates/index_html"
+          strip_components: 1
