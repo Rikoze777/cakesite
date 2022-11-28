@@ -1,0 +1,130 @@
+{% load static %}
+{{ orders }}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	<link rel="stylesheet" href="{% static 'Style.css' %}">
+	<!-- Для разработки: -->
+	<script src="https://unpkg.com/vue@3"></script>
+	<!-- Для продакшина: -->
+	<!-- <script src="https://unpkg.com/vue@3/dist/vue.global.prod.js"></script> -->
+	<script src="https://unpkg.com/vee-validate"></script>
+	<title>Личный кабинет</title>
+</head>
+<body>
+<nav class="navbar navbar-expand-xl navbar-light fixed-top bg-white py-4">
+	<div class="container">
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+			<span class="navbar-toggler-icon"></span>
+		</button>
+		<a class="navbar-brand" href="#">
+			<img src="{% static 'img/Logo.svg' %}" alt="CakeBake">
+		</a>
+		<div class="collapse navbar-collapse justify-content-end" id="navbar">
+			<ul class="navbar-nav">
+				<li class="nav-item me-5">
+					<a class="nav-link fw-lighter cake_blue" href="/#step3">Создать торт</a>
+				</li>
+				<li class="nav-item me-5">
+					<a class="nav-link fw-lighter cake_blue" href="/#step2">Каталог</a>
+				</li>
+				<li class="nav-item me-5">
+					<a class="nav-link fw-lighter cake_blue" href="/#step4">Оплата и доставка</a>
+				</li>
+				<li class="nav-item me-5">
+					<a class="nav-link fw-lighter cake_blue" href="/#Contacts">Контакты</a>
+				</li>
+				<li class="nav-item d-block d-xl-flex flex-column align-items-end me-5">
+					<small class="fw-lighter text-decoration-none fs_12 cake_blue">8 (495) 000-00-00</small>
+					<small class="fw-lighter text-decoration-none fs_12 cake_blue">Пн - Вс 10:00—20:00</small>
+				</li>
+				<li class="nav-item d-flex align-items-center">
+					<a class="nav-link fw-lighter me-1 cake_blue position-relative" href="#">
+						<img src="{% static 'img/shopping-cart.svg' %}" alt="">
+						<span class="position-absolute translate-middle badge rounded-pill cake__bg_pink fs_8">1</span>
+					</a>
+					<a class="nav-link fw-lighter me-1 cake_blue position-relative" href="#">
+						<img src="{% static 'img/user.svg' %}" alt="">
+						<span class="position-absolute translate-middle badge rounded-pill cake__bg_pink fs_8">1</span>
+					</a>
+					<a class="nav-link fw-lighter cake_grey fs_12" href="#">
+					</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+<div class="container mt-header mb-5">
+	<div class="row mt-5">
+		<div class="col-12 col-xxl-6 d-flex justify-content-center">
+			<div><img src="{% static 'img/Cake2.png' %}" alt=""></div>
+		</div>
+		<div class="col-12 col-xxl-6 d-flex flex-column justify-content-center align-items-center align-items-xxl-start" id="LK">
+			<v-form :validation-schema="Schema" @submit="ApplyChanges">
+				<div class="d-flex w-100 justify-content-center justify-content-xxl-between align-items-center">
+					<h1 class="font_Gogh fs_40 cake_blue">Личный кабинет</h1>
+				</div>
+				<div class="d-flex">
+					<ul class="list-group">
+						<li class="list-group-item border-0 ps-0">
+							<span class="fs_40 cake_blue">Пользователь: {{ client_details.name }}</span>
+						</li>
+						<li class="list-group-item border-0 ps-0">
+							<h1 class="fs_40 cake_blue">Телефон: {{ client_details.phone }}</h1>
+						</li>
+						<li class="list-group-item border-0 ps-0">
+							<h1 class="fs_40 cake_blue">Email: {{ client_details.email }}</h1>
+						</li>
+					</ul>
+				</div>
+			</v-form>
+			{% if orders %}
+				<h2 class="fs_40 cake_pink mt-5">Мои заказы</h2>
+				{% for order in orders %}
+					<section class="my-2">
+						<span class="cake_blue lk__order d-flex" data-bs-toggle="modal" data-bs-target="#OrderModal{{ order.id }}">
+							<svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" class="bi bi-clock-fill" viewBox="0 0 16 16">
+								<path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM8 3.5a.5.5 0 0 0-1 0V9a.5.5 0 0 0 .252.434l3.5 2a.5.5 0 0 0 .496-.868L8 8.71V3.5z"/>
+							</svg>
+							<span class="ms-1">Торт с надписью {{ order.cake.words }}</span>
+						</span>
+						<aside class="modal fade" id="OrderModal{{ order.id }}" tabindex="-1" aria-labelledby="ModalLabel{{ order.id }}" aria-hidden="true">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title cake_pink" id="ModalLabel{{ order.id }}">Торт с надписью {{ order.cake.words }}</h5>
+										<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+									</div>
+									<div class="modal-body">
+										<span class="cake_blue">Уровней: {{ order.cake.levels }}</span><br>
+										<span class="cake_blue">Форма: {{ order.cake.form }}</span><br>
+										<span class="cake_blue">Топпинг: {{ order.cake.toppings }}</span><br>
+										<span class="cake_blue">Ягоды: {{ order.cake.levels }}</span><br>
+										<span class="cake_blue">Декор: {{ order.cake.decors }}</span><br>
+										<span class="cake_blue">Надпись на торте: {{ order.cake.words }}</span><br>
+										<span class="cake_pink">Цена: {{ order.total }} рублей</span>
+									</div>
+									<div class="modal-footer d-flex justify-content-between">
+										<span class="cake_blue d-flex">Статус: В доставке</span>
+										<span class="cake_blue d-flex align-items-center">Время доставки: {{ order.delivery_datetime }}</span>
+									</div>
+								</div>
+							</div>
+						</aside>
+					</section>
+				{% endfor %}
+			{% else %}
+				<h2 class="fs_40 cake_pink mt-5">У вас нет активных заказов</h2>
+			{% endif %}
+		</div>
+	</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<script src="{% static 'lk.js' %}"></script>
+</body>
+</html>

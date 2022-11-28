@@ -1,4 +1,5 @@
 Vue.createApp({
+    delimiters: ['[[', ']]'],
     name: "App",
     components: {
         VForm: VeeValidate.Form,
@@ -45,7 +46,7 @@ Vue.createApp({
                     if (!value) {
                         return true;
                     }
-                    if ( !regex.test(value)) {
+                    if (!regex.test(value)) {
 
                         return '⚠ Формат имени нарушен';
                     }
@@ -56,18 +57,18 @@ Vue.createApp({
                     if (!value) {
                         return true;
                     }
-                    if ( !regex.test(value)) {
+                    if (!regex.test(value)) {
 
                         return '⚠ Формат почты нарушен';
                     }
                     return true;
                 },
-                phone_format:(value) => {
+                phone_format: (value) => {
                     const regex = /^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$/
                     if (!value) {
                         return true;
                     }
-                    if ( !regex.test(value)) {
+                    if (!regex.test(value)) {
 
                         return '⚠ Формат телефона нарушен';
                     }
@@ -103,7 +104,7 @@ Vue.createApp({
                 Forms: ['не выбрано', 'Круг', 'Квадрат', 'Прямоугольник'],
                 Toppings: ['не выбрано', 'Без', 'Белый соус', 'Карамельный', 'Кленовый', 'Черничный', 'Молочный шоколад', 'Клубничный'],
                 Berries: ['нет', 'Ежевика', 'Малина', 'Голубика', 'Клубника'],
-                Decors: [ 'нет', 'Фисташки', 'Безе', 'Фундук', 'Пекан', 'Маршмеллоу', 'Марципан']
+                Decors: ['нет', 'Фисташки', 'Безе', 'Фундук', 'Пекан', 'Маршмеллоу', 'Марципан']
             },
             Costs: {
                 Levels: [0, 400, 750, 1100],
