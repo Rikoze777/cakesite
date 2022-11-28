@@ -1,14 +1,12 @@
-
+on: 
+  push:
+    branches:
+      - dev
+name: 🚀 Deploy website on push
 jobs:
   web-deploy:
-  web-deploy:
     name: 🎉 Deploy
-    name: 🎉 Deploy
-    runs-on: self-hosted
     runs-on: ubuntu-latest
     steps:
-    steps:
     - name: 🚚 Get latest code
-    - name: 🚚 Get latest code
-      uses: actions/checkout@v2
       uses: actions/checkout@v2
