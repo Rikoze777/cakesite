@@ -1,21 +1,15 @@
 
-on: 
-  push:
-    branches:
-      - dev
-name: website deployment
-jobs:  
-  deploy:    
+jobs:
+jobs:
+  web-deploy:
+  web-deploy:
+    name: 🎉 Deploy
+    name: 🎉 Deploy
+    runs-on: self-hosted
     runs-on: ubuntu-latest
     steps:
-      - name: deploy website to example.com
-        uses: actions/checkout@v2
-        env:
-          HOST: ${{ secrets.HOST }}
-          USERNAME: ${{ secrets.USERNAME }}
-          PORT: ${{ secrets.PORT }}
-          KEY: ${{ secrets.KEY }}
-        with:
-          source: "cakesite"
-          target: "cake/templates/index_html"
-          strip_components: 1
+    steps:
+    - name: 🚚 Get latest code
+    - name: 🚚 Get latest code
+      uses: actions/checkout@v2
+      uses: actions/checkout@v2
