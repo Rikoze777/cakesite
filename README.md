@@ -23,3 +23,5 @@ pip install -r requirements.txt
 DEBUG=True(or False)
 SECRET_KEY="Your secret key"
 ```
+
+Test command project
